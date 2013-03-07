@@ -1,0 +1,63 @@
+<% content_for :title, @ctdown.title + ' - ' %>
+<div class="container">
+
+  <h1><%= @ctdown.title %></h1>
+
+  <% if @remaining >= 0 %>
+    <p>Goal: <%= @ctdown.goal.strftime('%B %e, %Y at %I:%M:%S %p') %></p>
+
+    <p>Remaining: <span id="remaining"> ~ loading... ~ </span></p>
+
+    <p><%= link_to 'Create a countdown', root_path %></p>
+
+    <script type="text/javascript">
+      var remaining = <%= @remaining %>;
+
+      var secondsToTime = function (s) {
+        // Setup
+        var secondsInAMinute = 60;
+        var secondsInAHour = secondsInAMinute * 60;
+        var secondsInADay = secondsInAHour * 24;
+        var secondsInAMonth = secondsInADay * 30;
+        var secondsInAYear = secondsInAMonth * 12;
+
+        var years = Math.floor(s / secondsInAYear);
+        var monthSeconds = s % secondsInAYear;
+        var months = Math.floor(monthSeconds / secondsInAMonth);
+        var daySeconds = monthSeconds % secondsInAMonth;
+        var days = Math.floor( daySeconds / secondsInADay );
+        var hourSeconds = daySeconds % secondsInADay;
+        var hours = Math.floor( hourSeconds / secondsInAHour );
+        var minuteSeconds = hourSeconds % secondsInAHour;
+        var minutes = Math.floor( minuteSeconds / secondsInAMinute );
+        var secondSeconds = minuteSeconds % secondsInAMinute;
+        var seconds = Math.ceil(secondSeconds);
+        return {
+          y:  years,
+          mo: months,
+          d:  days,
+          h:  hours < 10 ? '0' + hours : hours,
+          m:  minutes < 10 ? '0' + minutes : minutes,
+          s:  seconds < 10 ? '0' + seconds : seconds
+        }
+      };
+
+      var timer = function () {
+        remaining--;
+        if (remaining <= 0) {
+          clearInterval(counter);
+          location.reload(true);
+        }
+        var time = secondsToTime(remaining);
+        document.getElementById('remaining').innerHTML = time.y + ' year' + (time.y > 1 ? 's' : '') + ', ' + time.mo + ' month' + (time.mo > 1 ? 's' : '') + ', ' + time.d + ' day' + (time.d > 1 ? 's' : '') + ', '  + time.h + ':' + time.m + ':' + time.s;
+      }
+
+      var counter = setInterval(timer, 1000);
+    </script>
+
+  <% else %>
+    <p>This countdown is over, you can <%= link_to 'create a new one', root_path %>.</p>
+    <p>End date: <%= @ctdown.goal.strftime('%B %e, %Y at %I:%M:%S %p') %></p>
+  <% end %>
+
+</div>

@@ -1,0 +1,45 @@
+<div class="container">
+  <h1>Create your own countdown</h1>
+
+  <%= form_for @ctdown do |f| %>
+    <% now = DateTime.now %>
+    <% if @ctdown.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@ctdown.errors.count, "error") %> prohibited this countdown from being saved:</h2>
+
+        <ul>
+        <% @ctdown.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="control-group">
+      <%= f.label :title %>
+      <%= f.text_field :title, :required => :required, :placeholder => 'My awesome countdown' %>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :slug %>
+      <%= f.text_field :slug, :placeholder => 'my-awesome-countdown' %>
+    </div>
+
+    <div class="control-group date">
+      <%= f.label :date %>
+      <%= date_select :goal, :date, :start_year => now.year,
+                                    :end_year          => (now.year + 10),
+                                    :date_separator    => ' / ' %>
+    </div>
+
+    <div class="control-group time">
+      <%= f.label :time %>
+      <%= select_time now, :include_seconds => true %>
+    </div>
+
+    <div class="actions">
+      <%= hidden_field :date, :timezone, :value => now.zone %>
+      <%= f.submit 'Create countdown', :class => 'btn btn-large btn-danger' %>
+    </div>
+  <% end %>
+</div>

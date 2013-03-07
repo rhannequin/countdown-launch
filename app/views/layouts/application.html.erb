@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%=h yield(:title) %>Countdown</title>
+  <%= stylesheet_link_tag 'bootstrap.min', 'application', :media => 'all' %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<%= yield %>
+
+</body>
+</html>
