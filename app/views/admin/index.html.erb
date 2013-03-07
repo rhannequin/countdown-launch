@@ -1,0 +1,29 @@
+<div class="container">
+  <h1>Admin - Countdowns</h1>
+
+  <table class="table table-striped">
+    <tr>
+      <th>Title</th>
+      <th>Slug</th>
+      <th>Goal</th>
+      <th>Created at</th>
+      <th></th>
+    </tr>
+  <% @ctdowns.each do |ctdown| %>
+    <tr>
+      <td><%= ctdown.title %></td>
+      <td><%= link_to ctdown.slug, ctdown_path(ctdown.slug) %></td>
+      <td><%= ctdown.goal.strftime('%Y-%m-%d %I:%M:%S') %></td>
+      <td><%= ctdown.created_at.strftime('%Y-%m-%d %I:%M:%S') %></td>
+      <td>
+        <a href="<%= url_for ctdown_destroy_path(ctdown) %>" onclick="if (!confirm('Are you sure you want to delete this countdown?')){return false;}">
+          <i class="icon-remove"></i>
+        </a>
+      </td>
+    </tr>
+  <% end %>
+  <!--  Yeah, I know, `onclick` attribute is bad
+        but I don't want to load any JS lib on this project.
+        The simpler the better. -->
+  </table>
+</div>
