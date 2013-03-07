@@ -1,4 +1,6 @@
 .container {
+  margin-top: 100px;
+
   input[type="text"] {
     font-size: 25px;
     height: 50px;
@@ -13,6 +15,28 @@
     font-size: 20px;
     height: 37px;
     text-align: center;
+  }
+
+  .share-buttons{
+    width: 360px;
+    margin: auto;
+
+    li {
+      float: left;
+      list-style-type: none;
+      width: 90px;
+      padding-left: 30px;
+      padding-left: 30px;
+
+      &.twitter, &.google {
+        padding-top: 3px;
+      }
+    }
+  }
+
+  .create {
+    clear: both;
+    margin-top: 60px;
   }
 }
 

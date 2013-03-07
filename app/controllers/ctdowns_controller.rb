@@ -5,6 +5,7 @@ class CtdownsController < ApplicationController
 
   def show
     @ctdown = Ctdown.where(:slug => params[:slug]).first
+    @share_url = url_for root_url + @ctdown.slug
     @remaining = ((@ctdown.goal.to_datetime - DateTime.now) * 1.day).to_i
     raise ActionController::RoutingError.new('Not Found') unless @ctdown
   end

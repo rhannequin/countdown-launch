@@ -1,4 +1,15 @@
 <% content_for :title, @ctdown.title + ' - ' %>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1&appId=118293624941348";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
+
 <div class="container">
 
   <h1><%= @ctdown.title %></h1>
@@ -7,8 +18,6 @@
     <p>Goal: <%= @ctdown.goal.strftime('%B %e, %Y at %I:%M:%S %p') %></p>
 
     <p>Remaining: <span id="remaining"> ~ loading... ~ </span></p>
-
-    <p><%= link_to 'Create a countdown', root_path %></p>
 
     <script type="text/javascript">
       var remaining = <%= @remaining %>;
@@ -58,6 +67,35 @@
   <% else %>
     <p>This countdown is over, you can <%= link_to 'create a new one', root_path %>.</p>
     <p>End date: <%= @ctdown.goal.strftime('%B %e, %Y at %I:%M:%S %p') %></p>
+  <% end %>
+
+  <ul class="share-buttons">
+    <li class="facebook">
+      <!-- Facebook Like -->
+      <div class="fb-like" data-href="<%= @share_url %>" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false"></div>
+    </li>
+    <li class="google">
+      <!-- Google +1 -->
+      <div class="g-plus" data-action="share" data-annotation="bubble" data-href="<%= @share_url %>"></div>
+      <script type="text/javascript">
+        (function() {
+          var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+          po.src = 'https://apis.google.com/js/plusone.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        })();
+      </script>
+    </li>
+    <li class="twitter">
+      <!-- Twitter Tweet -->
+      <div>
+        <a href="https://twitter.com/share" class="twitter-share-button" data-url="<%= @share_url %>" data-text="<%= @ctdown.title %> <%= @share_url %>">Tweet</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+      </div>
+    </li>
+  </ul>
+
+  <% if @remaining >= 0 %>
+    <p class="create"><%= link_to 'Create a countdown', root_path %></p>
   <% end %>
 
 </div>
