@@ -1,5 +1,5 @@
 .container {
-  margin-top: 100px;
+  margin-top: 70px;
 
   input[type="text"] {
     font-size: 25px;
@@ -15,6 +15,24 @@
     font-size: 20px;
     height: 37px;
     text-align: center;
+  }
+
+  &.show table {
+    margin: auto;
+
+    th {
+      font-size: 20px;
+    }
+    td {
+      font-size: 50px;
+      padding: 20px 40px;
+    }
+    &.date {
+      margin-top: 20px;
+    }
+    &.time {
+      margin-bottom: 30px;
+    }
   }
 
   .share-buttons{

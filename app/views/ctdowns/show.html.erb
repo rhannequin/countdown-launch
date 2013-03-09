@@ -10,14 +10,14 @@
   }(document, 'script', 'facebook-jssdk'));
 </script>
 
-<div class="container">
+<div class="container show">
 
   <h1><%= @ctdown.title %></h1>
 
   <% if @remaining >= 0 %>
-    <p>Goal: <%= @ctdown.goal.strftime('%B %e, %Y at %I:%M:%S %p') %></p>
+    <div id="remaining"><p>Remaining<br /> ~ loading... ~ </p></div>
 
-    <p>Remaining: <span id="remaining"> ~ loading... ~ </span></p>
+    <p>Goal: <%= @ctdown.goal.strftime('%B %e, %Y at %I:%M:%S %p') %></p>
 
     <script type="text/javascript">
       var remaining = <%= @remaining %>;
@@ -25,29 +25,29 @@
       var secondsToTime = function (s) {
         // Setup
         var secondsInAMinute = 60;
-        var secondsInAHour = secondsInAMinute * 60;
-        var secondsInADay = secondsInAHour * 24;
-        var secondsInAMonth = secondsInADay * 30;
-        var secondsInAYear = secondsInAMonth * 12;
+        var secondsInAHour   = secondsInAMinute * 60;
+        var secondsInADay    = secondsInAHour * 24;
+        var secondsInAMonth  = secondsInADay * 30;
+        var secondsInAYear   = secondsInAMonth * 12;
 
-        var years = Math.floor(s / secondsInAYear);
-        var monthSeconds = s % secondsInAYear;
-        var months = Math.floor(monthSeconds / secondsInAMonth);
-        var daySeconds = monthSeconds % secondsInAMonth;
-        var days = Math.floor( daySeconds / secondsInADay );
-        var hourSeconds = daySeconds % secondsInADay;
-        var hours = Math.floor( hourSeconds / secondsInAHour );
-        var minuteSeconds = hourSeconds % secondsInAHour;
-        var minutes = Math.floor( minuteSeconds / secondsInAMinute );
-        var secondSeconds = minuteSeconds % secondsInAMinute;
-        var seconds = Math.ceil(secondSeconds);
+        var years            = Math.floor(s / secondsInAYear);
+        var monthSeconds     = s % secondsInAYear;
+        var months           = Math.floor(monthSeconds / secondsInAMonth);
+        var daySeconds       = monthSeconds % secondsInAMonth;
+        var days             = Math.floor( daySeconds / secondsInADay );
+        var hourSeconds      = daySeconds % secondsInADay;
+        var hours            = Math.floor( hourSeconds / secondsInAHour );
+        var minuteSeconds    = hourSeconds % secondsInAHour;
+        var minutes          = Math.floor( minuteSeconds / secondsInAMinute );
+        var secondSeconds    = minuteSeconds % secondsInAMinute;
+        var seconds          = Math.ceil(secondSeconds);
         return {
           y:  years,
           mo: months,
           d:  days,
-          h:  hours < 10 ? '0' + hours : hours,
-          m:  minutes < 10 ? '0' + minutes : minutes,
-          s:  seconds < 10 ? '0' + seconds : seconds
+          h:  hours   < 10   ? '0' + hours   : hours,
+          m:  minutes < 10   ? '0' + minutes : minutes,
+          s:  seconds < 10   ? '0' + seconds : seconds
         }
       };
 
@@ -58,14 +58,38 @@
           location.reload(true);
         }
         var time = secondsToTime(remaining);
-        document.getElementById('remaining').innerHTML = time.y + ' year' + (time.y > 1 ? 's' : '') + ', ' + time.mo + ' month' + (time.mo > 1 ? 's' : '') + ', ' + time.d + ' day' + (time.d > 1 ? 's' : '') + ', '  + time.h + ':' + time.m + ':' + time.s;
+        var result = '<table class="date">' +
+                        '<tr>' +
+                          '<td>' + time.y + '</td>' +
+                          '<td>' + time.mo + '</td>' +
+                          '<td>' + time.d + '</td>' +
+                        '</tr>' +
+                        '<tr>' +
+                          '<th>year</th>' +
+                          '<th>month</th>' +
+                          '<th>days</th>' +
+                        '</tr>' +
+                      '</table>' +
+                      '<br />' +
+                      '<table class="time">' +
+                        '<tr>' +
+                          '<td>' + time.h + '</td>' +
+                          '<td>' + time.m + '</td>' +
+                          '<td>' + time.s + '</td>' +
+                        '</tr>' +
+                        '<tr>' +
+                          '<th>hours</th>' +
+                          '<th>minutes</th>' +
+                          '<th>seconds</th>' +
+                        '</tr>' +
+                      '</table>';
+        document.getElementById('remaining').innerHTML = result;
       }
-
       var counter = setInterval(timer, 1000);
     </script>
 
   <% else %>
-    <p>This countdown is over, you can <%= link_to 'create a new one', root_path %>.</p>
+    <p>This countdown is over, you still can <%= link_to 'create one', root_path %>.</p>
     <p>End date: <%= @ctdown.goal.strftime('%B %e, %Y at %I:%M:%S %p') %></p>
   <% end %>
 
